@@ -6,19 +6,23 @@ import { useSelector } from 'react-redux';
 const ContactList = () => {
   const contacts = useSelector(state => state.contacts.items);
   const searchContact = useSelector(state => state.filters.name);
+  const error = useSelector(state => state.contacts.error);
 
   const filterContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(searchContact.toLowerCase())
   );
 
   return (
-    <ul className={s.flex}>
-      {filterContacts.map(({ name, number, id }) => (
-        <li key={id}>
-          <Contact name={name} number={number} id={id} />
-        </li>
-      ))}
-    </ul>
+    <div>
+      <ul className={s.flex}>
+        {filterContacts.map(({ name, number, id }) => (
+          <li key={id}>
+            <Contact name={name} number={number} id={id} />
+          </li>
+        ))}
+      </ul>
+      {error && <h2>Server is dead...</h2>}
+    </div>
   );
 };
 
